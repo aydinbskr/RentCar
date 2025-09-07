@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentCarServer.Domain.Abstractions;
 using RentCarServer.Domain.Branches;
 using RentCarServer.Domain.Branchs;
+using RentCarServer.Domain.Categories;
 using RentCarServer.Domain.LoginTokens;
 using RentCarServer.Domain.Users;
 using System.Security.Claims;
@@ -22,6 +23,7 @@ namespace RentCarServer.Infrastructure.Context
         public DbSet<User> Users { get; set; }
         public DbSet<LoginToken> LoginTokens { get; set; }
         public DbSet<Branch> Branches { get; set; }
+        public DbSet<Category> Categories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
@@ -32,7 +34,7 @@ namespace RentCarServer.Infrastructure.Context
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             configurationBuilder.Properties<decimal>().HaveColumnType("decimal(18,2)");
-            configurationBuilder.Properties<string>().HaveColumnType("varchar(MAX)");
+            //configurationBuilder.Properties<string>().HaveColumnType("varchar(MAX)");
             base.ConfigureConventions(configurationBuilder);
         }
 
