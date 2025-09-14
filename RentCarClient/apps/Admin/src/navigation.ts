@@ -27,6 +27,18 @@ export const navigations: NavigationModel[] = [
         permission: 'role:view'
     },
     {
+        title: 'Kategoriler',
+        url: '/categories',
+        icon: 'bi-tags',
+        permission: 'category:view'
+    },
+    {
+        title: 'Koruma Paketleri',
+        url: '/protection-packages',
+        icon: 'bi-shield-check',
+        permission: 'protection_package:view'
+    },
+    {
         title: 'Kullanıcılar',
         url: '/users',
         icon: 'bi-people',

@@ -6,6 +6,7 @@ using RentCarServer.Application.Services;
 using RentCarServer.Domain.Branchs;
 using RentCarServer.Domain.Categories;
 using RentCarServer.Domain.LoginTokens;
+using RentCarServer.Domain.ProtectionPackages;
 using RentCarServer.Domain.Roles;
 using RentCarServer.Domain.Users;
 using RentCarServer.Infrastructure.Context;
@@ -57,6 +58,7 @@ namespace RentCarServer.Infrastructure
             services.AddScoped<IBranchRepository, BranchRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProtectionPackageRepository, ProtectionPackageRepository>();
 
             services.AddScoped<IClaimContext, ClaimContext>();
             services.AddScoped<IJwtProvider, JwtProvider>();

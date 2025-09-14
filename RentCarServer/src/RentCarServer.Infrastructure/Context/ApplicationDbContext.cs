@@ -33,8 +33,8 @@ namespace RentCarServer.Infrastructure.Context
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
-            configurationBuilder.Properties<decimal>().HaveColumnType("decimal(18,2)");
-            //configurationBuilder.Properties<string>().HaveColumnType("varchar(MAX)");
+            configurationBuilder.Properties<decimal>().HaveColumnType("money");
+            configurationBuilder.Properties<string>().HaveColumnType("varchar(MAX)");
             base.ConfigureConventions(configurationBuilder);
         }
 

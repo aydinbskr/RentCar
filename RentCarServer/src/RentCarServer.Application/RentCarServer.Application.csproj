@@ -18,4 +18,8 @@
     <ProjectReference Include="..\RentCarServer.Domain\RentCarServer.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ProtectionPackages\" />
+  </ItemGroup>
+
 </Project>
