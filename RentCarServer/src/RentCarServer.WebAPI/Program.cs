@@ -98,6 +98,7 @@ app.MapPermission();
 app.MapUser();
 app.MapCategory();
 app.MapProtectionPackage();
+app.MapExtra();
 
 app.MapGet("/", () => "Hello World").RequireAuthorization();
 
