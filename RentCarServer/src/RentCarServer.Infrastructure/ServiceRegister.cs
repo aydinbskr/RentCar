@@ -10,6 +10,7 @@ using RentCarServer.Domain.LoginTokens;
 using RentCarServer.Domain.ProtectionPackages;
 using RentCarServer.Domain.Roles;
 using RentCarServer.Domain.Users;
+using RentCarServer.Domain.Vehicles;
 using RentCarServer.Infrastructure.Context;
 using RentCarServer.Infrastructure.Options;
 using RentCarServer.Infrastructure.Repositories;
@@ -61,6 +62,7 @@ namespace RentCarServer.Infrastructure
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProtectionPackageRepository, ProtectionPackageRepository>();
             services.AddScoped<IExtraRepository, ExtraRepository>();
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
 
             services.AddScoped<IClaimContext, ClaimContext>();
             services.AddScoped<IJwtProvider, JwtProvider>();

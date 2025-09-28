@@ -9,6 +9,10 @@ export const appRoutes: Route[] = [
         loadComponent: () => import('./pages/unauthorize/unauthorize')
     },
     {
+        path: 'unavailable',
+        loadComponent: () => import('./pages/unavailable/unavailable')
+    },
+    {
         path: 'login',
         loadComponent: () => import('./pages/auth/login/login')
     },
@@ -50,6 +54,10 @@ export const appRoutes: Route[] = [
             {
                 path: 'extra',
                 loadChildren: () => import('./pages/extras/router')
+            },
+            {
+                path: 'vehicles',
+                loadChildren: () => import('./pages/vehicles/router')
             }
         ]
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentCarServer.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using RentCarServer.Infrastructure.Context;
 namespace RentCarServer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250927091640_Vehicle_Added")]
+    partial class Vehicle_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -354,8 +357,8 @@ namespace RentCarServer.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(MAX)");
 
-                    b.Property<DateOnly?>("CascoEndDate")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("CascoEndDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
@@ -408,11 +411,11 @@ namespace RentCarServer.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(MAX)");
 
-                    b.Property<DateOnly>("InspectionDate")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("InspectionDate")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateOnly>("InsuranceEndDate")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("InsuranceEndDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("InsuranceType")
                         .IsRequired()
@@ -427,8 +430,8 @@ namespace RentCarServer.Infrastructure.Migrations
                     b.Property<int>("Kilometer")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("LastMaintenanceDate")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("LastMaintenanceDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("LastMaintenanceKm")
                         .HasColumnType("int");

@@ -83,6 +83,7 @@ app.UseCors(opt=>
  .SetPreflightMaxAge(TimeSpan.FromMinutes(10)));
 
 app.UseResponseCompression();
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -99,6 +100,7 @@ app.MapUser();
 app.MapCategory();
 app.MapProtectionPackage();
 app.MapExtra();
+app.MapVehicle();
 
 app.MapGet("/", () => "Hello World").RequireAuthorization();
 
