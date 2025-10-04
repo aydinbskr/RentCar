@@ -6,6 +6,7 @@ using RentCarServer.Domain.Abstractions;
 using RentCarServer.Domain.Branches;
 using RentCarServer.Domain.Branchs;
 using RentCarServer.Domain.Categories;
+using RentCarServer.Domain.Customers;
 using RentCarServer.Domain.LoginTokens;
 using RentCarServer.Domain.Users;
 using RentCarServer.Domain.Vehicles;
@@ -26,6 +27,7 @@ namespace RentCarServer.Infrastructure.Context
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

@@ -56,4 +56,10 @@ export const navigations: NavigationModel[] = [
         icon: 'bi-car-front',
         permission: 'vehicle:view'
     },
+    {
+        title: 'Müşteriler',
+        url: '/customers',
+        icon: 'bi-person-vcard',
+        permission: 'customer:view'
+    },
 ]

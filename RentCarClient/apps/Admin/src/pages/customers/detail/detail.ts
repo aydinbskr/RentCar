@@ -1,29 +1,28 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, resource, signal, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { httpResource } from '@angular/common/http';
 import Blank from 'apps/Admin/src/components/blank/blank';
-import { ProtectionPackageModel, initialProtectionPackageModel } from 'apps/Admin/src/models/protection-package.model';
-import { Result } from 'apps/Admin/src/models/result.model';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal, ViewEncapsulation } from '@angular/core';
+import { httpResource } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { BreadCrumbModel, BreadcrumbService } from 'apps/Admin/src/services/breadcrumb';
-import { TrCurrencyPipe } from 'tr-currency';
-
+import { Result } from 'apps/Admin/src/models/result.model';
+import { CommonModule, DatePipe } from '@angular/common';
+import { CustomerModel, initialCustomerModel } from 'apps/Admin/src/models/customer.model';
 
 @Component({
   imports: [
     Blank,
-    TrCurrencyPipe
+    DatePipe
   ],
   templateUrl: './detail.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class ProtectionPackageDetail {
+export default class CustomerDetail {
   readonly id = signal<string>('');
   readonly bredcrumbs = signal<BreadCrumbModel[]>([]);
-  readonly result = httpResource<Result<ProtectionPackageModel>>(() => `/rent/protection-packages/${this.id()}`);
-  readonly data = computed(() => this.result.value()?.data ?? initialProtectionPackageModel);
+  readonly result = httpResource<Result<CustomerModel>>(() => `/rent/customers/${this.id()}`);
+  readonly data = computed(() => this.result.value()?.data ?? initialCustomerModel);
   readonly loading = computed(() => this.result.isLoading());
-  readonly pageTitle = signal<string>("Koruma Paketi Detay");
+  readonly pageTitle = signal<string>("Müşteri Detay");
 
   readonly #activated = inject(ActivatedRoute);
   readonly #breadcrumb = inject(BreadcrumbService);
@@ -36,18 +35,18 @@ export default class ProtectionPackageDetail {
     effect(() => {
       const breadCrumbs: BreadCrumbModel[] = [
         {
-          title: 'Koruma Paketleri',
-          icon: 'bi-shield-check',
-          url: '/protection-packages'
+          title: 'Müşteriler',
+          icon: 'bi-people',
+          url: '/customers'
         }
       ];
 
       if (this.data()) {
         this.bredcrumbs.set(breadCrumbs);
         this.bredcrumbs.update(prev => [...prev, {
-          title: this.data().name,
+          title: this.data().fullName,
           icon: 'bi-zoom-in',
-          url: `/protection-packages/detail/${this.id()}`,
+          url: `/customers/detail/${this.id()}`,
           isActive: true
         }]);
         this.#breadcrumb.reset(this.bredcrumbs());

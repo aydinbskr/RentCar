@@ -1,4 +1,6 @@
 ﻿using RentCarServer.Domain.Abstractions;
+using RentCarServer.Domain.Branches;
+using RentCarServer.Domain.Categories;
 using RentCarServer.Domain.Vehicles;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,9 @@ namespace RentCarServer.Application.Vehicles
         public string Color { get; set; } = default!;
         public string Plate { get; set; } = default!;
         public Guid CategoryId { get; set; }
+        public string CategoryName { get; set; } = default!;
         public Guid BranchId { get; set; }
+        public string BranchName { get; set; } = default!;
         public string VinNumber { get; set; } = default!;
         public string EngineNumber { get; set; } = default!;
         public string Description { get; set; } = default!;
@@ -46,9 +50,14 @@ namespace RentCarServer.Application.Vehicles
 
     public static class VehicleExtensions
     {
-        public static IQueryable<VehicleDto> MapTo(this IQueryable<EntityWithAuditDto<Vehicle>> entities)
+        public static IQueryable<VehicleDto> MapTo(this IQueryable<EntityWithAuditDto<Vehicle>> entities,
+            IQueryable<Branch> branches,
+            IQueryable<Category> categories)
         {
-            return entities.Select(s => new VehicleDto
+            return entities
+                .Join(branches, m => m.Entity.BranchId, m => m.Id, (r, branch) => new { r.Entity, r.CreatedUser, r.UpdatedUser, Branch = branch })
+                .Join(categories, m => m.Entity.CategoryId, m => m.Id, (r, category) => new { r.Entity, r.CreatedUser, r.UpdatedUser, r.Branch, Category = category })
+                .Select(s => new VehicleDto
             {
                 Id = s.Entity.Id,
                 Brand = s.Entity.Brand,
@@ -57,7 +66,9 @@ namespace RentCarServer.Application.Vehicles
                 Color = s.Entity.Color,
                 Plate = s.Entity.Plate,
                 CategoryId = s.Entity.CategoryId,
+                CategoryName = s.Category.Name,
                 BranchId = s.Entity.BranchId,
+                BranchName = s.Branch.Name,   
                 VinNumber = s.Entity.VinNumber,
                 EngineNumber = s.Entity.EngineNumber,
                 Description = s.Entity.Description,
