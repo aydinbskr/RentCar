@@ -13,6 +13,7 @@ namespace RentCarServer.Application.ProtectionPackages
         string Name,
         decimal Price,
         bool IsRecommended,
+        int OrderNumber,
         IEnumerable<string> Coverages,
         bool IsActive) : IRequest<Result<string>>;
 
@@ -22,6 +23,7 @@ namespace RentCarServer.Application.ProtectionPackages
         {
             RuleFor(p => p.Name).NotEmpty().WithMessage("Geçerli bir paket adý girin");
             RuleFor(p => p.Price).GreaterThan(0).WithMessage("Geçerli bir fiyat girin");
+            RuleFor(p => p.Price).GreaterThan(-1).WithMessage("Fiyat pozitif olmalý");
         }
     }
 
@@ -38,7 +40,7 @@ namespace RentCarServer.Application.ProtectionPackages
             }
 
             var coverages = (request.Coverages ?? Enumerable.Empty<string>()).Select(c => new ProtectionCoverage(c));
-            var package = new ProtectionPackage(request.Name, request.Price, request.IsRecommended, coverages, request.IsActive);
+            var package = new ProtectionPackage(request.Name, request.Price, request.IsRecommended, request.OrderNumber,coverages, request.IsActive);
             protectionPackageRepository.Add(package);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

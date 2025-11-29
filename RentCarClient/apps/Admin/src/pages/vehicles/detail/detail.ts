@@ -102,7 +102,7 @@ export default class VehicleDetail {
 
   showImageUrl(){
     if(this.data().imageUrl){
-        return `https://localhost:7207/images/${this.data().imageUrl}`
+        return `https://localhost:7104/images/${this.data().imageUrl}`
     }else{
         return '/no-noimage.png'
     }

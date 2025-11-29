@@ -39,6 +39,7 @@ namespace RentCarServer.Infrastructure.Context
         {
             configurationBuilder.Properties<decimal>().HaveColumnType("money");
             configurationBuilder.Properties<string>().HaveColumnType("varchar(MAX)");
+            configurationBuilder.Properties<TimeOnly>().HaveColumnType("time(7)");
             base.ConfigureConventions(configurationBuilder);
         }
 

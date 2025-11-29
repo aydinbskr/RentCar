@@ -12,17 +12,19 @@ namespace RentCarServer.Domain.ProtectionPackages
         public string Name { get; private set; } = string.Empty;
         public decimal Price { get; private set; }
         public bool IsRecommended { get; private set; }
+        public int OrderNumber { get; private set; } = default!;
         private readonly List<ProtectionCoverage> _coverages = new();
 
         private ProtectionPackage() { }
 
-        public ProtectionPackage(string name, decimal price, bool isRecommended, IEnumerable<ProtectionCoverage> coverages, bool isActive)
+        public ProtectionPackage(string name, decimal price, bool isRecommended, int orderNumber, IEnumerable<ProtectionCoverage> coverages, bool isActive)
         {
             SetName(name);
             SetPrice(price);
             SetIsRecommended(isRecommended);
             SetCoverages(coverages);
             SetStatus(isActive);
+            //SetOrderNumber(orderNumber);
         }
 
         public void SetName(string name)
@@ -39,6 +41,7 @@ namespace RentCarServer.Domain.ProtectionPackages
         {
             IsRecommended = isRecommended;
         }
+        public void SetOrderNumber(int orderNumber) => OrderNumber = orderNumber;
         public void SetCoverages(IEnumerable<ProtectionCoverage> coverages)
         {
             _coverages.Clear();

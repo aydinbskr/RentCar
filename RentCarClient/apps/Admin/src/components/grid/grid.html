@@ -11,6 +11,10 @@ language="tr"
 (dataStateChange)="dataStateChange($event)"
 [commandColumnWidth]="commandColumnWidth()"
 [showIndex]="showIndex()"
+[sort]="sort()"
+[filter]="filter()"
+[reorderable]="reorderable()"
+(onReorder)="onReoderMethod($event)"
 >
     <ng-template flexiGridCaptionCommandTemplate>
         @if(commandTemplateRef() !== undefined){
@@ -29,17 +33,20 @@ language="tr"
     <ng-content />
 
     @if(showAudit()){
+      @if(showIsActive()){
         <flexi-grid-column
           field="isActive"
           title="Aktif Mi?"
           filterType="boolean"
           [booleanData]="['Aktif', 'Pasif']"
           textAlign="center" />
+      }
         <flexi-grid-column
           field="createdAt"
           title="Oluturulma Tarihi"
           filterType="date-time"
-          format="dd MMM yyyy HH:mm:ss" width="220px" />
+          format="dd MMM yyyy HH:mm:ss"
+          width="220px" />
         <flexi-grid-column field="createdFullName" title="Oluşturan" />
        <flexi-grid-column
           field="updatedAt"
@@ -50,10 +57,11 @@ language="tr"
     }
 
     <ng-template flexiGridColumnCommandTemplate let-item>
-      @if(columnCommandTemplateRef() !== undefined){
+        @if(columnCommandTemplateRef() !== undefined){
             <ng-container *ngTemplateOutlet="columnCommandTemplateRef()!; context:{ $implicit: item }">
             </ng-container>
         }
+
         @if(checkPermission(detailOptions().permission)){
           <flexi-button
             btnColor="indigo"
@@ -81,7 +89,5 @@ language="tr"
              flexiTooltip
              (click)="delete(item.id)" />
         }
-
-  
     </ng-template>
 </flexi-grid>

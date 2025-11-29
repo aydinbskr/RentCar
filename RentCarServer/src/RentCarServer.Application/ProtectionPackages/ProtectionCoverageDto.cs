@@ -14,6 +14,7 @@ namespace RentCarServer.Application.ProtectionPackages
     {
         public string Name { get; set; } = default!;
         public decimal Price { get; set; }
+        public int OrderNumber { get; set; }
         public bool IsRecommended { get; set; }
         public List<string> Coverages { get; set; } = new();
     }
@@ -27,6 +28,7 @@ namespace RentCarServer.Application.ProtectionPackages
                 Id = s.Entity.Id,
                 Name = s.Entity.Name,
                 Price = s.Entity.Price,
+                OrderNumber = s.Entity.OrderNumber,
                 IsRecommended = s.Entity.IsRecommended,
                 Coverages = s.Entity.Coverages.Select(c => c.Name ).ToList(),
                 IsActive = s.Entity.IsActive,

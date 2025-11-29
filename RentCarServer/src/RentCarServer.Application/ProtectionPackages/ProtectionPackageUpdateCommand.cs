@@ -5,6 +5,7 @@ using GenericRepository;
 using RentCarServer.Application.Behaviours;
 using System.Linq;
 using TS.MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace RentCarServer.Application.ProtectionPackages
 {
@@ -14,6 +15,7 @@ namespace RentCarServer.Application.ProtectionPackages
         string Name,
         decimal Price,
         bool IsRecommended,
+        int OrderNumber,
         IEnumerable<string> Coverages,
         bool IsActive) : IRequest<Result<string>>;
 
@@ -47,9 +49,26 @@ namespace RentCarServer.Application.ProtectionPackages
                 }
             }
 
+            if (package.OrderNumber != request.OrderNumber)
+            {
+                var packages = await protectionPackageRepository
+                    .WhereWithTracking(p => p.Id != package.Id)
+                    .OrderBy(i => i.OrderNumber)
+                    .ToListAsync(cancellationToken);
+
+                packages.Insert(request.OrderNumber - 1, package);
+
+                foreach (var (item, index) in packages.Select((item, index) => (item, index)))
+                {
+                    item.SetOrderNumber(index + 1);
+                }
+            }
+
+
             package.SetName(request.Name);
             package.SetPrice(request.Price);
             package.SetIsRecommended(request.IsRecommended);
+            
             var coverages = (request.Coverages ?? Enumerable.Empty<string>()).Select(c => new ProtectionCoverage(c));
             package.SetCoverages(coverages);
             package.SetStatus(request.IsActive);

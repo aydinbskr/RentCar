@@ -47,6 +47,20 @@ export interface FeatureGroup {
     'Mor'
   ];
 
+    export const fuelTypeList = [
+    'Benzin',
+    'Dizel',
+    'LPG',
+    'Elektrik',
+    'Hibrit'
+  ];
+
+  export const transmissionList = [
+    'Manuel',
+    'Otomatik',
+    'CVT'
+  ];
+
   export const modelYearList = Array.from({length: 16}, (_, i) => 2010 + i);
 
 @Component({
@@ -76,20 +90,8 @@ export default class CreateVehicle {
   readonly brandList = computed(() => brandList);
   readonly modelYearList = computed(() => modelYearList);
   readonly colorList = computed(() => colorList);
-
-  readonly fuelTypeList = [
-    'Benzin',
-    'Dizel',
-    'LPG',
-    'Elektrik',
-    'Hibrit'
-  ];
-
-  readonly transmissionList = [
-    'Manuel',
-    'Otomatik',
-    'CVT'
-  ];
+  readonly fuelTypeList = (() => fuelTypeList);
+  readonly transmissionList = (() => transmissionList);
 
   readonly seatCountList = [
     { value: 2, label: '2 Kişi' },
@@ -404,7 +406,7 @@ export default class CreateVehicle {
     if(this.fileData()){
         return this.fileData()
     }else if(this.data().imageUrl){
-        return `https://localhost:7207/images/${this.data().imageUrl}`
+        return `https://localhost:7104/images/${this.data().imageUrl}`
     }else{
         return '/no-noimage.png'
     }

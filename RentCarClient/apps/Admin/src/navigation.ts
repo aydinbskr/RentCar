@@ -62,4 +62,10 @@ export const navigations: NavigationModel[] = [
         icon: 'bi-person-vcard',
         permission: 'customer:view'
     },
+    {
+        title: 'Rezervasyonlar',
+        url: '/reservations',
+        icon: 'bi-calendar-check',
+        permission: 'reservation:view'
+    },
 ]

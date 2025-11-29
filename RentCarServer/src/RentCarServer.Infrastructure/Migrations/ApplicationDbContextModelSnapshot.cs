@@ -272,6 +272,9 @@ namespace RentCarServer.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(MAX)");
 
+                    b.Property<int>("OrderNumber")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -284,6 +287,91 @@ namespace RentCarServer.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProtectionPackages", (string)null);
+                });
+
+            modelBuilder.Entity("RentCarServer.Domain.Reservations.Reservation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("DeliveryDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DeliveryDatetime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<TimeOnly>("DeliveryTime")
+                        .HasColumnType("time(7)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("varchar(MAX)");
+
+                    b.Property<DateOnly>("PickUpDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("PickUpDatetime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("PickUpLocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<TimeOnly>("PickUpTime")
+                        .HasColumnType("time(7)");
+
+                    b.Property<Guid>("ProtectionPackageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("ProtectionPackagePrice")
+                        .HasColumnType("money");
+
+                    b.Property<string>("ReservationNumber")
+                        .IsRequired()
+                        .HasColumnType("varchar(MAX)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("money");
+
+                    b.Property<int>("TotalDay")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("VehicleDailyPrice")
+                        .HasColumnType("money");
+
+                    b.Property<Guid>("VehicleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("RentCarServer.Domain.Roles.Role", b =>
@@ -637,6 +725,112 @@ namespace RentCarServer.Infrastructure.Migrations
                         });
 
                     b.Navigation("Coverages");
+                });
+
+            modelBuilder.Entity("RentCarServer.Domain.Reservations.Reservation", b =>
+                {
+                    b.OwnsOne("RentCarServer.Domain.Reservations.PaymentInformation", "PaymentInformation", b1 =>
+                        {
+                            b1.Property<Guid>("ReservationId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("CartNumber")
+                                .IsRequired()
+                                .HasColumnType("varchar(MAX)");
+
+                            b1.Property<string>("Owner")
+                                .IsRequired()
+                                .HasColumnType("varchar(MAX)");
+
+                            b1.HasKey("ReservationId");
+
+                            b1.ToTable("Reservations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ReservationId");
+                        });
+
+                    b.OwnsMany("RentCarServer.Domain.Reservations.ReservationExtra", "ReservationExtras", b1 =>
+                        {
+                            b1.Property<Guid>("ReservationId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("ExtraId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<decimal>("Price")
+                                .HasColumnType("money");
+
+                            b1.HasKey("ReservationId", "Id");
+
+                            b1.ToTable("ReservationExtra");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ReservationId");
+                        });
+
+                    b.OwnsMany("RentCarServer.Domain.Reservations.ReservationHistory", "Histories", b1 =>
+                        {
+                            b1.Property<Guid>("ReservationId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<DateTimeOffset>("CreatedAt")
+                                .HasColumnType("datetimeoffset");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasColumnType("varchar(MAX)");
+
+                            b1.Property<string>("Title")
+                                .IsRequired()
+                                .HasColumnType("varchar(MAX)");
+
+                            b1.HasKey("ReservationId", "Id");
+
+                            b1.ToTable("ReservationHistory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ReservationId");
+                        });
+
+                    b.OwnsOne("RentCarServer.Domain.Reservations.Status", "Status", b1 =>
+                        {
+                            b1.Property<Guid>("ReservationId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("varchar(MAX)");
+
+                            b1.HasKey("ReservationId");
+
+                            b1.ToTable("Reservations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ReservationId");
+                        });
+
+                    b.Navigation("Histories");
+
+                    b.Navigation("PaymentInformation")
+                        .IsRequired();
+
+                    b.Navigation("ReservationExtras");
+
+                    b.Navigation("Status")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RentCarServer.Domain.Roles.Role", b =>

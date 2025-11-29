@@ -1,6 +1,6 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, contentChild, contentChildren, inject, input, signal, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, contentChild, contentChildren, inject, input, output, signal, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { BreadCrumbModel, BreadcrumbService } from '../../services/breadcrumb';
-import { FlexiGridColumnComponent, FlexiGridModule, FlexiGridService, StateModel } from 'flexi-grid';
+import { FlexiGridColumnComponent, FlexiGridModule, FlexiGridReorderModel, FlexiGridService, StateFilterModel, StateModel, StateSortModel } from 'flexi-grid';
 import { httpResource } from '@angular/common/http';
 import { ODataModel } from '../../models/odata.model';
 import { FlexiToastService } from 'flexi-toast';
@@ -34,10 +34,15 @@ export default class Grid implements AfterViewInit {
   readonly detailOptions = input.required<btnOptions>();
   readonly deleteOptions = input.required<btnOptions>();
   readonly breadcrumbs = input.required<BreadCrumbModel[]>();
- 
   readonly commandColumnWidth = input<string>("150px");
   readonly showIndex = input<boolean>(true);
   readonly captionTitle = input.required<string>();
+  readonly showIsActive = input<boolean>(true);
+  readonly sort = input<StateSortModel>({field: '', dir:'asc'});
+  readonly filter = input<StateFilterModel[]>([]);
+  readonly reorderable = input<boolean>(false);
+
+  readonly onReoder = output<FlexiGridReorderModel>();
 
   readonly columns = contentChildren(FlexiGridColumnComponent, {descendants: true});
   readonly commandTemplateRef = contentChild<TemplateRef<any>>("commandTemplate");
@@ -45,8 +50,12 @@ export default class Grid implements AfterViewInit {
 
   readonly state = signal<StateModel>(new StateModel());
   readonly result = httpResource<ODataModel<any>>(() => {
-    debugger;
-    let enpoint = this.endpoint() + '?$count=true';
+    let enpoint = this.endpoint();
+    if(enpoint.includes("?")){
+      enpoint += '&$count=true'
+    }else{
+      enpoint += '?$count=true'
+    }
     const part = this.#grid.getODataEndpoint(this.state());
     enpoint += `&${part}`;
 
@@ -81,5 +90,9 @@ export default class Grid implements AfterViewInit {
 
   checkPermission(permission: string){
     return this.#common.checkPermission(permission);
+  }
+
+  onReoderMethod(event:FlexiGridReorderModel){
+    this.onReoder.emit(event);
   }
 }

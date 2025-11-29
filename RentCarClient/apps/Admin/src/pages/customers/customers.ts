@@ -3,11 +3,13 @@ import Grid from '../../components/grid/grid';
 import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 import { BreadCrumbModel, BreadcrumbService } from '../../services/breadcrumb';
 import { Common } from '../../services/common';
+import { NgxMaskPipe } from 'ngx-mask';
 
 @Component({
     imports: [
         Grid,
-        FlexiGridModule
+        FlexiGridModule,
+        NgxMaskPipe
     ],
   templateUrl: './customers.html',
   encapsulation: ViewEncapsulation.None,

@@ -50,6 +50,7 @@ namespace RentCarServer.WebAPI.Modules
                         "Mini Güvence Paketi",
                         150,
                         false,
+                        1,
                         new List<ProtectionCoverage>
                         {
                             new("Hasar Sorumluluk Güvencesi (CDW)"),
@@ -61,6 +62,7 @@ namespace RentCarServer.WebAPI.Modules
                         "Standart Güvence Paketi",
                         250,
                         true,
+                        2,
                         new List<ProtectionCoverage>
                         {
                             new("Önceki Paketin Tüm Özellikleri Dahil"),
@@ -73,6 +75,7 @@ namespace RentCarServer.WebAPI.Modules
                         "Full Güvence Paketi",
                         350,
                         false,
+                        3,
                         new List<ProtectionCoverage>
                         {
                             new("Önceki Paketin Tüm Özellikleri Dahil"),
